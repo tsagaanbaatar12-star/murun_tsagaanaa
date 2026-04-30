@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Админ Нэвтрэх{% endblock %}
+
+{% block body %}
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <i class="fas fa-shield-alt"></i>
+    </div>
+    <h2 class="login-title">Админ Нэвтрэх</h2>
+    <p class="login-sub">MVC Систем удирдлагын панел</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ cat }} alert-dismissible fade show" role="alert">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+      <div class="form-group mb-3">
+        <label class="form-label">Хэрэглэгчийн нэр</label>
+        <div class="input-with-icon">
+          <i class="fas fa-user"></i>
+          <input type="text" name="username" class="form-control" placeholder="admin" required>
+        </div>
+      </div>
+      <div class="form-group mb-4">
+        <label class="form-label">Нууц үг</label>
+        <div class="input-with-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary-custom w-100">
+        <i class="fas fa-sign-in-alt me-2"></i>Нэвтрэх
+      </button>
+    </form>
+    <div class="login-hint">
+      <small>Анхны нэвтрэх: <code>admin / admin123</code></small>
+    </div>
+    <a href="{{ url_for('user.index') }}" class="back-link">
+      <i class="fas fa-home me-1"></i>Нүүр хуудас руу буцах
+    </a>
+  </div>
+</div>
+{% endblock %}

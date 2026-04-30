@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}Нүүр хуудас - MVC Систем{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('user.index') }}">
+      <i class="fas fa-layer-group me-2"></i>MVC Систем
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('user.index') }}">Нүүр</a></li>
+        <li class="nav-item"><a class="nav-link" href="#articles">Нийтлэлүүд</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.login') }}"><i class="fas fa-lock me-1"></i>Админ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <div class="badge-pill mb-3">Flask + MySQL + Docker</div>
+      <h1 class="hero-title">MVC Архитектур<br><span class="highlight">Веб Систем</span></h1>
+      <p class="hero-sub">REST API + Admin Panel + CRUD үйлдлүүдтэй бүрэн веб аппликейшн</p>
+      <div class="d-flex gap-3 flex-wrap">
+        <a href="#articles" class="btn btn-primary-custom">Нийтлэлүүд үзэх</a>
+        <a href="{{ url_for('admin.login') }}" class="btn btn-outline-custom">Админ панел</a>
+      </div>
+    </div>
+    <div class="hero-arch">
+      <div class="arch-card">
+        <div class="arch-layer frontend"><i class="fab fa-html5"></i> Frontend</div>
+        <div class="arch-arrow"><i class="fas fa-arrows-alt-v"></i></div>
+        <div class="arch-layer backend"><i class="fab fa-python"></i> Flask API</div>
+        <div class="arch-arrow"><i class="fas fa-arrows-alt-v"></i></div>
+        <div class="arch-layer database"><i class="fas fa-database"></i> MySQL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-section">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="stat-card">
+          <i class="fas fa-newspaper stat-icon"></i>
+          <div class="stat-num">{{ articles|length }}</div>
+          <div class="stat-label">Нийтлэл</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card">
+          <i class="fas fa-tags stat-icon"></i>
+          <div class="stat-num">{{ categories|length }}</div>
+          <div class="stat-label">Категори</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card">
+          <i class="fas fa-server stat-icon"></i>
+          <div class="stat-num">REST</div>
+          <div class="stat-label">API Стандарт</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="articles-section" id="articles">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Нийтлэлүүд</h2>
+      <p class="section-sub">API-аас динамикаар татагдсан мэдээлэл</p>
+    </div>
+    <div class="filter-bar mb-4">
+      <button class="filter-btn active" onclick="filterCategory('all', this)">Бүгд</button>
+      {% for cat in categories %}
+      <button class="filter-btn" onclick="filterCategory('{{ cat }}', this)">{{ cat }}</button>
+      {% endfor %}
+    </div>
+    <div class="row g-4" id="articles-grid">
+      {% for article in articles %}
+      <div class="col-md-6 col-lg-4 article-item" data-category="{{ article.category }}">
+        <div class="article-card">
+          <div class="article-category-badge">{{ article.category }}</div>
+          <h3 class="article-title">{{ article.title }}</h3>
+          <p class="article-preview">{{ article.content[:120] }}{% if article.content|length > 120 %}...{% endif %}</p>
+          <div class="article-footer">
+            <span class="article-meta"><i class="fas fa-user me-1"></i>{{ article.author }}</span>
+            <a href="{{ url_for('user.article_detail', id=article.id) }}" class="read-more">Дэлгэрэнгүй <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="col-12 text-center py-5">
+        <i class="fas fa-inbox fa-3x text-muted mb-3 d-block"></i>
+        <p class="text-muted">Нийтлэл байхгүй байна</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container text-center">
+    <p>Lab07 | Flask MVC + Docker + MySQL | <a href="/api/articles" target="_blank">API Endpoint</a></p>
+  </div>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function filterCategory(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.article-item').forEach(item => {
+    item.style.display = (cat === 'all' || item.dataset.category === cat) ? '' : 'none';
+  });
+}
+</script>
+{% endblock %}
