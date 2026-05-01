@@ -7,8 +7,8 @@
     <div class="login-logo">
       <i class="fas fa-shield-alt"></i>
     </div>
-    <h2 class="login-title">Админ Нэвтрэх</h2>
-    <p class="login-sub">MVC Систем удирдлагын панел</p>
+    <h2 class="login-title">Зохиолч Нэвтрэх</h2>
+    <p class="login-sub">Нийтлэлийн сайтын удирдлагын цонх</p>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% for cat, msg in messages %}
@@ -18,7 +18,6 @@
         </div>
       {% endfor %}
     {% endwith %}
-
     <form method="POST">
       <div class="form-group mb-3">
         <label class="form-label">Хэрэглэгчийн нэр</label>
@@ -38,9 +37,6 @@
         <i class="fas fa-sign-in-alt me-2"></i>Нэвтрэх
       </button>
     </form>
-    <div class="login-hint">
-      <small>Анхны нэвтрэх: <code>admin / admin123</code></small>
-    </div>
     <a href="{{ url_for('user.index') }}" class="back-link">
       <i class="fas fa-home me-1"></i>Нүүр хуудас руу буцах
     </a>
