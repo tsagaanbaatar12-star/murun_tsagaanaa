@@ -1,40 +1,19 @@
 {% extends 'base.html' %}
 {% block title %}{{ article.title }}{% endblock %}
 
-{% block body %}
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
-  <div class="container">
-    <a class="navbar-brand" href="{{ url_for('user.index') }}">
-      <i class="fas fa-layer-group me-2"></i>MVC Систем
-    </a>
-    <div class="ms-auto">
-      <a href="{{ url_for('user.index') }}" class="btn btn-outline-light btn-sm">
-        <i class="fas fa-arrow-left me-1"></i>Буцах
-      </a>
-    </div>
-  </div>
-</nav>
+{% block content %}
+<a href="{{ url_for('user.index') }}" class="btn btn-sm btn-outline-secondary mb-3">← Буцах</a>
 
-<div class="detail-page">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="detail-card">
-          <span class="detail-category">{{ article.category }}</span>
-          <h1 class="detail-title">{{ article.title }}</h1>
-          <div class="detail-meta">
-            <span><i class="fas fa-user me-1"></i>{{ article.author }}</span>
-            <span><i class="fas fa-calendar me-1"></i>{{ article.created_at.strftime('%Y-%m-%d') if article.created_at }}</span>
-          </div>
-          <div class="detail-content">
-            {{ article.content }}
-          </div>
-        </div>
-        <a href="{{ url_for('user.index') }}" class="btn btn-primary-custom mt-3">
-          <i class="fas fa-arrow-left me-2"></i>Буцах
-        </a>
-      </div>
-    </div>
+<div class="card">
+  {% if article.image_url %}
+  <img src="{{ article.image_url }}" class="card-img-top" style="max-height:400px; object-fit:cover;" alt="{{ article.title }}">
+  {% endif %}
+  <div class="card-body">
+    <span class="badge-cat">{{ article.category }}</span>
+    <h2 class="mt-2">{{ article.title }}</h2>
+    <small class="text-muted">{{ article.author }} | {{ article.created_at.strftime('%Y-%m-%d') if article.created_at }}</small>
+    <hr>
+    <p style="line-height: 1.8;">{{ article.content }}</p>
   </div>
 </div>
 {% endblock %}

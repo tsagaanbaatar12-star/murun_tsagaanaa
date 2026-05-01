@@ -1,45 +1,54 @@
 {% extends 'admin/base_admin.html' %}
-{% block page_title %}{{ action }} нийтлэл{% endblock %}
-
 {% block content %}
-<div class="admin-panel" style="max-width: 700px;">
-  <div class="admin-panel-header">
-    <h3>{{ action }} нийтлэл</h3>
-  </div>
-  <div class="p-4">
-    <form method="POST">
-      <div class="mb-3">
-        <label class="form-label fw-semibold">Гарчиг <span class="text-danger">*</span></label>
-        <input type="text" name="title" class="form-control" value="{{ article.title if article else '' }}" required>
+<h4 class="mb-4">{{ action }} мэдээ</h4>
+
+<div class="card p-4" style="max-width:650px;">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label class="form-label fw-bold">Гарчиг *</label>
+      <input type="text" name="title" class="form-control" value="{{ article.title if article else '' }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Агуулга *</label>
+      <textarea name="content" class="form-control" rows="6" required>{{ article.content if article else '' }}</textarea>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col">
+        <label class="form-label fw-bold">Категори</label>
+        <input type="text" name="category" class="form-control" value="{{ article.category if article else 'Ерөнхий' }}">
       </div>
-      <div class="mb-3">
-        <label class="form-label fw-semibold">Агуулга <span class="text-danger">*</span></label>
-        <textarea name="content" class="form-control" rows="7" required>{{ article.content if article else '' }}</textarea>
+      <div class="col">
+        <label class="form-label fw-bold">Зохиолч</label>
+        <input type="text" name="author" class="form-control" value="{{ article.author if article else current_user.username }}">
       </div>
-      <div class="row g-3 mb-3">
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Категори</label>
-          <input type="text" name="category" class="form-control" value="{{ article.category if article else 'Ерөнхий' }}">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Зохиолч</label>
-          <input type="text" name="author" class="form-control" value="{{ article.author if article else current_user.username }}">
-        </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Зураг</label>
+      {% if article and article.image_url %}
+      <div class="mb-2">
+        <img src="{{ article.image_url }}" style="height:80px; border-radius:4px;">
+        <small class="text-muted ms-2">Одоогийн зураг</small>
       </div>
-      <div class="mb-4">
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" name="is_published" id="pubSwitch"
-            {% if article and article.is_published %}checked{% elif not article %}checked{% endif %}>
-          <label class="form-check-label fw-semibold" for="pubSwitch">Нийтлэх</label>
-        </div>
+      {% endif %}
+      <input type="file" name="image" class="form-control" accept="image/*">
+      <small class="text-muted">PNG, JPG, GIF, WEBP форматтай зураг оруулна</small>
+    </div>
+
+    <div class="mb-4">
+      <div class="form-check">
+        <input type="checkbox" name="is_published" class="form-check-input" id="pub"
+          {% if article and article.is_published %}checked{% elif not article %}checked{% endif %}>
+        <label class="form-check-label" for="pub">Нийтлэх</label>
       </div>
-      <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary-custom">
-          <i class="fas fa-save me-2"></i>{{ action }}
-        </button>
-        <a href="{{ url_for('admin.articles') }}" class="btn btn-secondary">Цуцлах</a>
-      </div>
-    </form>
-  </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-dark">{{ action }}</button>
+      <a href="{{ url_for('admin.articles') }}" class="btn btn-outline-secondary">Цуцлах</a>
+    </div>
+  </form>
 </div>
 {% endblock %}

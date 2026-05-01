@@ -1,77 +1,73 @@
-# Lab07 - Flask MVC Web System
+cat > ~/SoftwareEngineering/Lab07_Project/README.md << 'EOF'
+# Lab07 - Мэдээний сайт (Flask MVC)
 
 ## Технологи
 - **Backend**: Flask (Python) - REST API
-- **Frontend**: HTML + CSS (Bootstrap 5) + JavaScript
+- **Frontend**: HTML + Bootstrap 5
 - **Database**: MySQL (Docker)
 - **Architecture**: MVC Pattern
 
 ## Төслийн бүтэц
-```
-Lab07_project/
+Lab07_Project/
 ├── app/
-│   ├── __init__.py          # Flask app factory
+│   ├── init.py              # Flask app тохиргоо
 │   ├── models/
-│   │   ├── admin_model.py   # Admin Model
-│   │   └── article_model.py # Article Model
+│   │   ├── init.py
+│   │   ├── admin_model.py       # Админ Model
+│   │   └── article_model.py     # Мэдээ Model
 │   ├── controllers/
-│   │   ├── user_controller.py   # User routes
-│   │   ├── admin_controller.py  # Admin CRUD routes
+│   │   ├── init.py
+│   │   ├── user_controller.py   # Хэрэглэгчийн routes
+│   │   ├── admin_controller.py  # Админ CRUD routes
 │   │   └── api_controller.py    # REST API routes
 │   ├── templates/
-│   │   ├── base.html
+│   │   ├── base.html            # Үндсэн загвар
 │   │   ├── user/
-│   │   │   ├── index.html
-│   │   │   └── detail.html
+│   │   │   ├── index.html       # Нүүр хуудас
+│   │   │   └── detail.html      # Мэдээний дэлгэрэнгүй
 │   │   └── admin/
-│   │       ├── base_admin.html
-│   │       ├── login.html
-│   │       ├── dashboard.html
-│   │       ├── articles.html
-│   │       └── article_form.html
+│   │       ├── login.html       # Нэвтрэх хуудас
+│   │       ├── base_admin.html  # Админ үндсэн загвар
+│   │       ├── dashboard.html   # Dashboard
+│   │       ├── articles.html    # Мэдээний жагсаалт
+│   │       └── article_form.html # Нэмэх/Засах форм
 │   └── static/
-│       ├── css/main.css
-│       └── js/main.js
+│       └── uploads/             # Зургууд хадгалагдах газар
 ├── docker/
-│   └── init.sql             # DB seed data
-├── docker-compose.yml
-├── Dockerfile
-├── requirements.txt
-└── run.py
-```
-
+│   └── init.sql                 # DB үүсгэх
+├── docker-compose.yml           # Docker тохиргоо
+├── Dockerfile                   # Flask container тохиргоо
+├── requirements.txt             # Python сангууд
+└── run.py                       # Эхлүүлэгч
 ## Ажиллуулах
 
-### Docker ашиглан (санал болгох)
 ```bash
 docker-compose up --build
 ```
-Дараа нь: http://localhost:5000
 
-### Локал орчинд (MySQL тусад нь ажиллаж байх ёстой)
-```bash
-pip install -r requirements.txt
-python run.py
-```
+Хөтөч дээр:
+- Нүүр хуудас: http://localhost:5000
+- Админ: http://localhost:5000/admin/login
+- API: http://localhost:5000/api/articles
 
-## Нэвтрэх мэдээлэл
-- **Админ URL**: http://localhost:5000/admin/login
-- **Хэрэглэгч нэр**: `admin`
-- **Нууц үг**: `admin123`
+## Админ нэвтрэх
+- Хэрэглэгч: `admin`
+- Нууц үг: `admin123`
 
 ## API Endpoints
 | Method | URL | Тайлбар |
 |--------|-----|---------|
-| GET | /api/articles | Бүх нийтлэл |
-| GET | /api/articles/:id | Нэг нийтлэл |
-| GET | /api/categories | Категориуд |
+| GET | /api/articles | Бүх мэдээ JSON хэлбэрээр |
+| GET | /api/articles/:id | Нэг мэдээ JSON хэлбэрээр |
 
 ## Admin CRUD
 | Үйлдэл | URL |
 |--------|-----|
 | Нэвтрэх | /admin/login |
 | Dashboard | /admin/ |
-| Нийтлэлүүд | /admin/articles |
+| Мэдээнүүд | /admin/articles |
 | Нэмэх | /admin/articles/create |
 | Засах | /admin/articles/edit/:id |
 | Устгах | /admin/articles/delete/:id |
+EOF
+echo "README бэлэн боллоо!"

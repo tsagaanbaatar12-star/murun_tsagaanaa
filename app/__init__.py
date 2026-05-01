@@ -8,11 +8,9 @@ login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
-    
-    # Config
-    app.config['SECRET_KEY'] = 'lab07-secret-key-2024'
+    app.config['SECRET_KEY'] = 'lab07-secret-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-        'DATABASE_URL', 
+        'DATABASE_URL',
         'mysql+pymysql://lab07_user:lab07_pass@localhost:3306/lab07_db'
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -20,9 +18,7 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'admin.login'
-    login_manager.login_message = 'Нэвтэрч орно уу!'
 
-    # Register blueprints
     from app.controllers.user_controller import user_bp
     from app.controllers.admin_controller import admin_bp
     from app.controllers.api_controller import api_bp
